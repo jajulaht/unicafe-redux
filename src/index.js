@@ -1,7 +1,8 @@
-import React from 'react';
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
 import reducer from './reducers/reducer'
+import Statistics from './components/Statistics'
 
 const store = createStore(reducer)
 
@@ -29,13 +30,12 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anna palautetta</h1>
       <button onClick={good}>hyvä</button> 
       <button onClick={ok}>neutraali</button> 
       <button onClick={bad}>huono</button>
       <button onClick={zero}>nollaa tilastot</button>
-      <div>hyvä {store.getState().good}</div>
-      <div>neutraali {store.getState().ok}</div>
-      <div>huono {store.getState().bad}</div>
+      <Statistics store={store} />
     </div>
   )
 }
