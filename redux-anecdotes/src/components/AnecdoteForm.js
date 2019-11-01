@@ -3,7 +3,7 @@ import {
   createAnecdote
 } from '../reducers/anecdoteReducer' 
 
-const AnecdoteForm = ({ props }) => {
+const AnecdoteForm = (props) => {
   const addAnecdote = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
