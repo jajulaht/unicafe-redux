@@ -4,6 +4,9 @@ const App = (props) => {
   const anecdotes = props.store.getState()
   const store = props.store
 
+  // Arrange anecdotes by votes in descending order
+  const arrangedAnecdotes = anecdotes.sort((a, b) => (a.votes < b.votes) ? 1 : -1)
+
   const vote = (id) => {
     store.dispatch({
       type: 'VOTE',
@@ -27,7 +30,7 @@ const App = (props) => {
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
+      {arrangedAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
