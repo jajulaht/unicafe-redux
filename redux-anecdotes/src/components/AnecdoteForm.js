@@ -6,6 +6,7 @@ import { createNotification, deleteNotification } from '../reducers/notification
 import { connect } from 'react-redux'
 
 const AnecdoteForm = (props) => {
+  // Function for adding anecdote and displaying notification
   const addAnecdote = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value

@@ -6,17 +6,7 @@ import { createNotification, deleteNotification } from '../reducers/notification
 import { connect } from 'react-redux'
 
 const AnecdoteList = (props) => {
-  const anecdotes = props.anecdotes
-  const search = props.filter
-
-  // Arrange anecdotes by votes in descending order
-  const arrangedAnecdotes = anecdotes.sort((a, b) => (a.votes < b.votes) ? 1 : -1)
-
-  // Filter for anecdotes
-  let anecdotesToShow = arrangedAnecdotes.filter(line => 
-    line.content.toLowerCase().includes(search.toLowerCase())
-  )
-
+  // Function for voting and displaying notification
   const vote = (id, content) => {
     props.voteOf(id)
     props.createNotification(`You voted '${content}'`)
@@ -24,9 +14,10 @@ const AnecdoteList = (props) => {
       props.deleteNotification()
     }, 5000)
   }
+
   return(
     <>
-      {anecdotesToShow.map(anecdote =>
+      {props.visibleAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
@@ -41,12 +32,23 @@ const AnecdoteList = (props) => {
   )
 }
 
+// Prepare anecdotes that will be displayed
+const anecdotesToShow = ({ anecdotes, filter }) => {
+  // Arrange anecdotes by votes in descending order
+  const arrangedAnecdotes = anecdotes.sort((a, b) => (a.votes < b.votes) ? 1 : -1)
+
+  // Filter for anecdotes
+  let anecdotesToShow = arrangedAnecdotes.filter(line => 
+    line.content.toLowerCase().includes(filter.toLowerCase())
+  )
+  return anecdotesToShow
+}
+
 const mapStateToProps = (state) => {
   // joskus on hyödyllistä tulostaa mapStateToProps:ista...
   console.log('alist', state)
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter
+    visibleAnecdotes: anecdotesToShow(state),
   }
 }
 
