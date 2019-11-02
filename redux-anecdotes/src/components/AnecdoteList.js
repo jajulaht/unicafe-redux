@@ -6,9 +6,15 @@ import { createNotification, deleteNotification } from '../reducers/notification
 
 const AnecdoteList = ({ store }) => {
   const anecdotes = store.getState().anecdotes
+  const search = store.getState().filter
 
   // Arrange anecdotes by votes in descending order
   const arrangedAnecdotes = anecdotes.sort((a, b) => (a.votes < b.votes) ? 1 : -1)
+
+  // Filter for anecdotes
+  let anecdotesToShow = arrangedAnecdotes.filter(line => 
+    line.content.toLowerCase().includes(search.toLowerCase())
+  )
 
   const vote = (id, content) => {
     store.dispatch(voteOf(id))
@@ -19,7 +25,7 @@ const AnecdoteList = ({ store }) => {
   }
   return(
     <>
-      {arrangedAnecdotes.map(anecdote =>
+      {anecdotesToShow.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
