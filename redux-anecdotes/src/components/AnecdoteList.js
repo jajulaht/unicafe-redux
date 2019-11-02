@@ -4,7 +4,7 @@ import {
 } from '../reducers/anecdoteReducer' 
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState()
+  const anecdotes = store.getState().anecdotes
 
   // Arrange anecdotes by votes in descending order
   const arrangedAnecdotes = anecdotes.sort((a, b) => (a.votes < b.votes) ? 1 : -1)
