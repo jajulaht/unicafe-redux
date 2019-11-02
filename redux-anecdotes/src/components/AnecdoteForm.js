@@ -3,16 +3,17 @@ import {
   createAnecdote
 } from '../reducers/anecdoteReducer'
 import { createNotification, deleteNotification } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
 const AnecdoteForm = (props) => {
   const addAnecdote = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
-    props.store.dispatch(createAnecdote(content))
+    props.createAnecdote(content)
     event.target.anecdote.value = ''
-    props.store.dispatch(createNotification(`You added '${content}'`))
+    props.createNotification(`You added '${content}'`)
     setTimeout(() => {
-      props.store.dispatch(deleteNotification())
+      props.deleteNotification()
     }, 5000)
   }
 
@@ -27,4 +28,24 @@ const AnecdoteForm = (props) => {
   )
 }
 
-export default AnecdoteForm
+const mapStateToProps = (state) => {
+  // joskus on hyödyllistä tulostaa mapStateToProps:ista...
+  console.log('aform', state)
+  return {
+    anecdotes: state.anecdotes,
+    notification: state.notification
+  }
+}
+
+const mapDispatchToProps = {
+  createAnecdote,
+  createNotification,
+  deleteNotification
+}
+
+const ConnectedAnecdoteForm = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteForm)
+
+export default ConnectedAnecdoteForm

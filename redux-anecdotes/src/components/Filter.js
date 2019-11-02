@@ -1,9 +1,10 @@
 import React from 'react'
 import { createFilter } from '../reducers/filterReducer'
+import { connect } from 'react-redux'
 
 const Filter = (props) => {
   const handleChange = (event) => {
-    props.store.dispatch(createFilter(event.target.value))
+    props.createFilter(event.target.value)
   }
   const style = {
     marginTop: 20,
@@ -17,4 +18,21 @@ const Filter = (props) => {
   )
 }
 
-export default Filter
+const mapStateToProps = (state) => {
+  // joskus on hyödyllistä tulostaa mapStateToProps:ista...
+  console.log('filter', state)
+  return {
+    filter: state.filter
+  }
+}
+
+const mapDispatchToProps = {
+  createFilter
+}
+
+const ConnectedFilter = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Filter)
+
+export default ConnectedFilter

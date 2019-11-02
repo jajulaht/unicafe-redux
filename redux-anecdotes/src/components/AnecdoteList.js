@@ -3,10 +3,11 @@ import {
   voteOf
 } from '../reducers/anecdoteReducer' 
 import { createNotification, deleteNotification } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState().anecdotes
-  const search = store.getState().filter
+const AnecdoteList = (props) => {
+  const anecdotes = props.anecdotes
+  const search = props.filter
 
   // Arrange anecdotes by votes in descending order
   const arrangedAnecdotes = anecdotes.sort((a, b) => (a.votes < b.votes) ? 1 : -1)
@@ -17,10 +18,10 @@ const AnecdoteList = ({ store }) => {
   )
 
   const vote = (id, content) => {
-    store.dispatch(voteOf(id))
-    store.dispatch(createNotification(`You voted '${content}'`))
+    props.voteOf(id)
+    props.createNotification(`You voted '${content}'`)
     setTimeout(() => {
-      store.dispatch(deleteNotification())
+      props.deleteNotification()
     }, 5000)
   }
   return(
@@ -40,4 +41,24 @@ const AnecdoteList = ({ store }) => {
   )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  // joskus on hyödyllistä tulostaa mapStateToProps:ista...
+  console.log('alist', state)
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
+}
+
+const mapDispatchToProps = {
+  voteOf,
+  createNotification,
+  deleteNotification
+}
+
+const ConnectedAnecdoteList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList)
+
+export default ConnectedAnecdoteList
