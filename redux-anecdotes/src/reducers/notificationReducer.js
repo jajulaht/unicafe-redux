@@ -1,13 +1,15 @@
-const notificationAtStart = 
-  'This is the first notification for development purposes.'
+const initialState = null
 
-const initialState = notificationAtStart
-
-// Action creator function
+// Action creator functions
 export const createNotification = (content) => {
   return {
     type: 'NEW_NOTIFICATION',
     data: content
+  }
+}
+export const deleteNotification = () => {
+  return {
+    type: 'DEL_NOTIFICATION',
   }
 }
 
@@ -16,7 +18,9 @@ const notificationReducer = (state = initialState, action) => {
   console.log('action', action)
   switch(action.type) {
     case 'NEW_NOTIFICATION':
-      return state.concat(action.data)
+      return action.data
+    case 'DEL_NOTIFICATION':
+      return initialState
     default:
       return state
   }
