@@ -4,7 +4,6 @@ import {
 } from '../reducers/anecdoteReducer'
 import { createNotification, deleteNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import anecdoteService from '../services/anecdotes'
 
 const AnecdoteForm = (props) => {
   // Function for adding anecdote and displaying notification
@@ -12,9 +11,7 @@ const AnecdoteForm = (props) => {
     event.preventDefault()
     const element = event.target
     const content = event.target.anecdote.value
-    const newAnecdote = await anecdoteService.createNew(content)
-    props.createAnecdote(newAnecdote)
-    console.log('täällä', props)
+    props.createAnecdote(content)
     element.anecdote.value = ''
     props.createNotification(`You added '${content}'`)
     setTimeout(() => {
