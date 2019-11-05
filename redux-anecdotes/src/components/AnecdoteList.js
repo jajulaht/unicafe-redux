@@ -4,18 +4,18 @@ import {
 } from '../reducers/anecdoteReducer' 
 import { createNotification, deleteNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import anecdoteService from '../services/anecdotes'
+//import anecdoteService from '../services/anecdotes'
 
 const AnecdoteList = (props) => {
   // Function for voting and displaying notification
-  const vote = async ({ id, content, votes }) => {
+  const vote = async ({ content, id, votes }) => {
     const data = {
       'content': content,
       'id': id,
       'votes': votes + 1
     }
-    const updatedAnecdote = await anecdoteService.update(id, data)
-    props.voteOf(updatedAnecdote.id)
+    console.log('vote', data)
+    props.voteOf(data)
     props.createNotification(`You voted '${content}'`)
     setTimeout(() => {
       props.deleteNotification()
