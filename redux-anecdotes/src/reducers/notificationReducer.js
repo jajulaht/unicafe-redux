@@ -1,17 +1,25 @@
 const initialState = null
 
 // Action creator functions
-export const createNotification = (content) => {
-  return {
-    type: 'NEW_NOTIFICATION',
-    data: content
+export const createNotification = (content, time) => {
+  return async dispatch => {
+    console.log('time', time)
+    dispatch ({
+      type: 'NEW_NOTIFICATION',
+      data: content,
+    })
+    setTimeout(() => {
+      dispatch ({
+        type: 'DEL_NOTIFICATION',
+      })
+    }, time * 1000)
   }
 }
-export const deleteNotification = () => {
-  return {
-    type: 'DEL_NOTIFICATION',
-  }
-}
+// export const deleteNotification = () => {
+//   return {
+//     type: 'DEL_NOTIFICATION',
+//   }
+// }
 
 const notificationReducer = (state = initialState, action) => {
   console.log('state now: ', state)
